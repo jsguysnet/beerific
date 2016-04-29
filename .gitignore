@@ -1,3 +1,4 @@
 platforms/*
 hooks/
 plugins/
+.idea
