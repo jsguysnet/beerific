@@ -1,0 +1,108 @@
+{
+  "success": "true",
+  "content": [
+    {
+      "title": "Alter Wirt Forstenried",
+      "location": {
+        "address": {
+          "street": "Jachenauer Strasse",
+          "number": 17,
+          "zip": 81369,
+          "city": "Munich"
+        },
+        "coordinates": {
+          "lat": 49.12,
+          "lng": 11
+        }
+      },
+      "description": "<p>Das ist eine sehr coole Kneipe</p>",
+      "teaser": "Geht noch mehr?",
+      "images": [
+        {
+          "src": "/img/favicon/favicon16x16.png",
+          "alt": "cooles favicon",
+          "description": "hier steht eine bildunterschrift"
+        },
+        {
+          "src": "/img/favicon/favicon16x16.png",
+          "alt": "cooles favicon 2",
+          "description": "hier steht eine bildunterschrift"
+        }
+      ],
+      "menu": {
+        "drinks": [
+          {
+            "title": "Augustiner",
+            "type": "Helles",
+            "prices": [
+              {
+                "size": 0.5,
+                "price": 3.9
+              },
+              {
+                "size": 1,
+                "price": 7.8
+              }
+            ]
+          },
+          {
+            "title": "Frnaziskaner",
+            "type": "Weissbier",
+            "prices": [
+              {
+                "size": 0.5,
+                "price": 4.2
+              },
+              {
+                "size": 1,
+                "price": 8.1
+              }
+            ]
+          }
+        ],
+        "food": [
+          {
+            "title": "Brezn",
+            "price": 1.1
+          }
+        ]
+      },
+      "openingHours": [
+        {
+          "open": "09:00",
+          "close": null
+        },
+        {
+          "open": "09:00",
+          "close": null
+        },
+        {
+          "open": "09:00",
+          "close": null
+        },
+        {
+          "open": "09:00",
+          "close": null
+        },
+        {
+          "open": "09:00",
+          "close": null
+        },
+        {
+          "open": "09:00",
+          "close": null
+        },
+        {
+          "open": "09:00",
+          "close": null
+        }
+      ]
+    },
+    {
+      "title": "Avli"
+    },
+    {
+      "title": "Poseidon"
+    }
+  ]
+}
