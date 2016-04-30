@@ -17,7 +17,7 @@
         }
       },
       "description": "<p>Hier treffen sich Nachbarn und Stammgäste, viele Familien und Geschäftsleute, um unter alten Kastanien Pause von der Großstadthektik zu machen. Unsere Biergarten-Küche bietet eine große Speisenauswahl und das süffige Hofbräu-Bier, die ruhige Lage und der große Kinderspielplatz machen den Taxisgarten zu dem, wofür ihn unsere Gäste so schätzen:</p><p>Ein Ort zum Genießen und gemütlich Zusammensitzen, zum Reden und Runterkommen, zum Durchschnaufen und Dabeisein.</p>",
-      "teaser": "Geht noch mehr?",
+      "teaser": "Ein Biergarten im Herzen Münchens",
       "images": [
         {
           "src": "img/beergarden/1/1.jpg",
@@ -47,7 +47,7 @@
             ]
           },
           {
-            "title": "Frnaziskaner",
+            "title": "Franziskaner",
             "type": "Weissbier",
             "prices": [
               {
