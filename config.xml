@@ -7,7 +7,7 @@
     <author email="info@jsguys.net" href="http://www.jsguys.net">
         jsguys
     </author>
-    <content src="index.html" />
+    <content src="detail.html" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -25,14 +25,6 @@
         <icon src="res/android/android-icon-144x144.png" density="xxhdpi" />
         <icon src="res/android/android-icon-192x192.png" density="xxxhdpi" />
     </platform>
-        <!--
-            ldpi    : 36x36 px
-            mdpi    : 48x48 px
-            hdpi    : 72x72 px
-            xhdpi   : 96x96 px
-            xxhdpi  : 144x144 px
-            xxxhdpi : 192x192 px
-        -->
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
