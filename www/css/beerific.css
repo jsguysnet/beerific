@@ -88,7 +88,7 @@ p + p {
     margin: 0;
     padding: 0.5em;
     position: relative;
-    clear: right;
+    clear: both;
     font-weight: bold;
 }
 
@@ -111,6 +111,32 @@ p + p {
 #beertastic li > span.ratings {
     width: 100%;
     display: block;
+}
+
+#beertastic li div.teaser {
+    display: none;
+    font-weight: normal;
+}
+
+
+#beertastic li div.teaser strong {
+    font-weight: bold;
+    display: inline-block;
+    width: 100px;
+}
+
+#beertastic li.active div.teaser {
+    display: block;
+    padding: 1em 0;
+}
+
+#beertastic li div.teaser img {
+    width: 200px;
+    float: left;
+}
+
+#beertastic li div.teaser p {
+    padding-left: 215px;
 }
 
 .details .headline {

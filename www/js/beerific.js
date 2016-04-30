@@ -47,11 +47,12 @@ var Beerific = {
         var ratings = document.createElement('span');
         var likes = document.createElement('span');
         var unlikes = document.createElement('span');
-        var additionalData = document.createElement('div');
+        var additionalData = this.getTeaserData(item);
 
         li.setAttribute('class', 'list-item ' + item.status);
         status.setAttribute('class', 'status');
         ratings.setAttribute('class', 'ratings');
+        additionalData.setAttribute('class', 'teaser')
 
         likes.setAttribute('class', 'fa fa-thumbs-up');
         likes.innerHTML = item.rating.like || '';
@@ -59,11 +60,10 @@ var Beerific = {
         unlikes.setAttribute('class', 'fa fa-thumbs-down');
         unlikes.innerHTML = item.rating.unlike || '';
 
-
         li.innerHTML = item.title;
 
         ratings.appendChild(likes);
-        ratings.appendChild(unlikes)
+        ratings.appendChild(unlikes);
 
         li.appendChild(status);
         li.appendChild(ratings);
@@ -71,6 +71,32 @@ var Beerific = {
         li.appendChild(additionalData);
 
         return li;
+    },
+
+    getTeaserData(item) {
+        var teaserData = document.createElement('div');
+        teaserData.setAttribute('class', 'teaser');
+
+        var image = document.createElement('img');
+
+        if (item.images) {
+            image.src = item.images[0].src;
+            teaserData.appendChild(image);
+        }
+
+        var detailed = document.createElement('p');
+        detailed.innerHTML = item.teaser;
+
+        var beerType = document.createElement('p');
+        beerType.innerHTML = '<strong>Biersorte:</strong> ' + 'Biermarke';
+        var price = document.createElement('p');
+        price.innerHTML = '<strong>Maßpreis:</strong> ' + 'Maßpreis';
+
+        teaserData.appendChild(detailed);
+        teaserData.appendChild(beerType);
+        teaserData.appendChild(price);
+
+        return teaserData;
     }
 };
 
