@@ -109,11 +109,7 @@ function beerList() {
                 var content = document.getElementById('content');
 
                 var beertastic = document.getElementById('beertastic');
-                data.content.forEach(function (beer) {
-                    var beerGarden = document.createElement('li');
-                    beerGarden.innerHTML = beer.title;
-                    beertastic.appendChild(beerGarden);
-                });
+                Beerific.createList(data.content, beertastic);
             }
             else {
                 alert('Fehler beim Laden der Daten, du gehst heute nüchtern nach Hause!')
