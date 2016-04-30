@@ -53,21 +53,43 @@ header {
 }
 
 #content {
-    margin: 1em 0 0;
     background-color: #fff;
     border: 1px solid #777777;
     color: #777;
-    padding: 1em;
+    margin: 1em 0 0;
+    padding: 1em 1em 4rem;
 }
 
 .tab-navigation {
+    background-image: linear-gradient(#555, #333, #333, #333);
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 3rem;
-    background: url(../img/logo-white.png) no-repeat center #333333;
-    background-size: auto 80%;
+}
+
+.tab-navigation li {
+    color: #fff;
+    display: block;
+    float: left;
+    font-size: 2rem;
+    height: 100%;
+    margin: 0;
+    padding: 0.5rem 0;
+    position: relative;
+    text-align: center;
+    width: 33.333333%;
+}
+
+.tab-navigation li.list {
+    background-image: url(../img/logo-white.png);
+    background-position: center 0.5rem;
+    background-repeat: no-repeat;
+    background-size: auto 2rem;
+    border-left: #667 solid 1px;
+    border-right: #667 solid 1px;
+    width: calc(33.333333% - 2px);
 }
 
 p + p {

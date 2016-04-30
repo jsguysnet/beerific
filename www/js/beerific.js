@@ -16,6 +16,18 @@ var Beerific = {
             };
             xmlHttp.send(null);
         }
+    },
+    createDetails: function (beer) {
+        document.getElementsByClassName('title')[0].innerHTML = beer.title;
+        document.getElementsByClassName('description')[0].innerHTML = beer.description;
+        var headline = document.getElementsByClassName('headline')[0];
+        headline.style.backgroundImage = 'url(' + beer.images[0].src + ')';
+        var food = document.getElementsByClassName('food')[0].getElementsByTagName('ul')[0];
+        beer.menu.food.forEach(function (entry) {
+            var li = document.createElement('li');
+            li.innerHTML = entry.title + ' – ' + entry.price + '€';
+            food.appendChild(li);
+        });
     }
 };
 
@@ -30,12 +42,9 @@ function beerDetails() {
                 
                 Beerific.getData(function (data) {
                     if (data.success) {
-                        data.content.forEach(function (beer) {
+                         data.content.forEach(function (beer) {
                             if (beer.id === beerKey) {
-                                document.getElementsByClassName('title')[0].innerHTML = beer.title;
-                                document.getElementsByClassName('description')[0].innerHTML = beer.description;
-                                var headline = document.getElementsByClassName('headline')[0];
-                                headline.style.backgroundImage = 'url(' + beer.images[0].src + ')';
+                                Beerific.createDetails(beer);
                             }
                         });
                     }
