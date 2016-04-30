@@ -2,6 +2,7 @@
   "success": "true",
   "content": [
     {
+      "id": 1,
       "title": "Alter Wirt Forstenried",
       "location": {
         "address": {
@@ -96,13 +97,30 @@
           "open": "09:00",
           "close": null
         }
-      ]
+      ],
+      "status": "open",
+      "rating": {
+        "like": 12,
+        "unlike": 1
+      }
     },
     {
-      "title": "Avli"
+      "id": 2,
+      "title": "Avli",
+      "status": "closed",
+      "rating": {
+        "like": 12,
+        "unlike": 1
+      }
     },
     {
-      "title": "Poseidon"
+      "id": 3,
+      "title": "Poseidon",
+      "status": "open",
+      "rating": {
+        "like": 12,
+        "unlike": 1
+      }
     }
   ]
 }

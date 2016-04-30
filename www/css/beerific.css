@@ -5,17 +5,17 @@ html {
 }
 
 body {
-    background-color: #FBCB23;
-    background-image: linear-gradient(top, #FBF916 0%, #FBCB23 51%);
-    background-image: -moz-linear-gradient(top, #FBF916 0%, #FBCB23 51%);
-    background-image: -webkit-linear-gradient(top, #FBF916 0%, #FBCB23 51%);
-    background-image: -ms-linear-gradient(top, #FBF916 0%, #FBCB23 51%);
+    background-color: #fbd118;
+    background-image: linear-gradient(top, #FBCB23 0%, #fbd118 51%);
+    background-image: -moz-linear-gradient(top, #FBCB23 0%, #fbd118 51%);
+    background-image: -webkit-linear-gradient(top, #FBCB23 0%, #fbd118 51%);
+    background-image: -ms-linear-gradient(top, #FBCB23 0%, #fbd118 51%);
     background-image: -webkit-gradient(
             linear,
             left top,
             left bottom,
-            color-stop(0, #FBF916),
-            color-stop(0.51, #FBCB23)
+            color-stop(0, #FBCB23),
+            color-stop(0.51, #fbd118)
     );
     background-attachment: fixed;
 
@@ -52,11 +52,10 @@ header {
 }
 
 #content {
-    margin: 1em 2.5% 0;
+    margin: 1em 0;
     background-color: #fff;
     border: 1px solid #777777;
     color: #777;
-    padding: 1em;
 }
 
 .tab-navigation {
@@ -65,7 +64,7 @@ header {
     left: 0;
     width: 100%;
     height: 3rem;
-    background: url(../img/logo-white.png) no-repeat center #333333;
+    background: url(../img/logo-white.png) no-repeat center #555;
     background-size: auto 80%;
 }
 
@@ -74,18 +73,59 @@ p + p {
 }
 
 #beertastic {
-    padding: 0.5em 0 0;
+    padding: 0.25em 0 0;
+    list-style-type: none;
+    font-size: 0.9em;
+    line-height: 1.25em;
+}
+
+#beertastic li + li {
+    border-top: 1px solid #999;
 }
 
 #beertastic li {
-    list-style-image: url(../img/favicon/favicon-16x16.png);
-    list-style-position: inside;
-    padding: 0.1em 0;
+    margin: 0;
+    padding: 0.5em;
+    position: relative;
+    clear: right;
+    font-weight: bold;
 }
 
-.start h1 {
-    width: 100%;
-    text-align: center;
-    position: fixed;
-    bottom: 20%;
+#beertastic li > span.status {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    border-radius: 100%;
+    float: right;
 }
+
+#beertastic li.closed > span.status {
+    background-color: #ff0000;
+}
+
+#beertastic li.open > span.status {
+    background-color: #55AA27;
+}
+
+#beertastic li > span.ratings {
+    width: 100%;
+    display: block;
+}
+
+#beertastic li > span.fa {
+    display: block;
+    clear: both;
+    width: 1em;
+    height: 1em;
+    overflow: hidden;
+}
+
+#beertastic li > span.ratings > span::before {
+    padding-right: 0.25em;
+}
+
+#beertastic li > span.ratings > span.fa-thumbs-down {
+    display: inline-block;
+    margin-left: 1em;
+}
+
