@@ -32,16 +32,38 @@
 
     <title>Beerific</title>
 </head>
-<body class="start">
+<body class="details">
     <div class="app">
         <header>
-            <form class="search">
-                <input class="search-field" name="query" type="search" placeholder="Finde deinen Biergarten ...">
-                <i class="fa fa-search magnify"></i>
-            </form>
+            <i class="button back fa fa-chevron-left"></i>
+            <h1 class="title">Titel</h1>
         </header>
         <main id="content" role="content">
-            <ul id="beertastic"></ul>
+          <div class="headline"></div>
+          <div class="features">
+            <p>
+              <span>
+                <i class="fa fa-beer"></i>
+                <span class="beer-price">$$</span>
+              </span>
+              <span>
+                <i class="fa fa-clock-o"></i>
+                <span class="opening-hours">31</span>
+              </span>
+            </p>
+            <p>
+              <span>
+                <i class="fa fa-map-marker"></i>
+                <span class="address">1 Beer St</span>
+              </span>
+            </p>
+          </div>
+          <div class="description">
+            Beschreibung
+          </div>
+          <div class="food">
+            <h2>Speisekarte</h2>
+            <ul></ul>
         </main>
         <footer>
             <ul class="tab-navigation"></ul>
@@ -49,7 +71,7 @@
     </div>
     <script type="text/javascript" src="js/beerific.js"></script>
     <script>
-        beerList();
+        beerDetails();
     </script>
 </body>
 </html>

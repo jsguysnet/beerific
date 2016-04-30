@@ -29,6 +29,7 @@ body {
 
 header {
     padding: 2.5% 2.5% 0;
+    position: relative;
 }
 
 .search {
@@ -112,6 +113,58 @@ p + p {
     display: block;
 }
 
+.details .headline {
+    background-color: #777;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    display: block;
+    height: 12em;
+    margin: -1em -1em 1em;
+}
+
+.details .features {
+    border-bottom: 1px solid #777;
+    margin-bottom: 1em;
+    padding-bottom: 1em;
+}
+
+.details .features span + span {
+    padding-left: 1em;
+}
+
+.details .features span i.fa {
+    padding-right: 0.25em;
+    width: 1em;
+}
+
+.details .features p + p {
+    margin-top: 0.25rem;
+}
+
+.details .food {
+    margin-top: 1em;
+}
+
+.details .food h2 {
+    font-size: 1.5em;
+}
+
+header .title {
+    font-size: 1.25rem;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+}
+
+header i.back {
+    display: inline;
+    left: 1em;
+    position: absolute;
+    top: 0.75em;
+}
+
 #beertastic li > span.fa {
     display: block;
     clear: both;
@@ -128,4 +181,3 @@ p + p {
     display: inline-block;
     margin-left: 1em;
 }
-
