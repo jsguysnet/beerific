@@ -54,10 +54,8 @@ header {
 
 #content {
     background-color: #fff;
-    border: 1px solid #777777;
     color: #777;
     margin: 1em 0 0;
-    padding: 1em 1em 4rem;
 }
 
 .tab-navigation {
@@ -96,26 +94,28 @@ p + p {
     margin-top: 1em;
 }
 
-#beertastic {
-    padding: 0.25em 0 0;
+#beer-garden-list {
     list-style-type: none;
     font-size: 0.9em;
     line-height: 1.25em;
+    border-top: 1px solid #777777;
+    border-bottom: 1px solid #777777;
 }
 
-#beertastic li + li {
+#beer-garden-list li + li {
     border-top: 1px solid #999;
 }
 
-#beertastic li {
+#beer-garden-list li {
     margin: 0;
-    padding: 0.5em;
     position: relative;
-    clear: both;
     font-weight: bold;
+    padding: 0.5em;
+    clearfix: after;
+    clear: both;
 }
 
-#beertastic li > span.status {
+#beer-garden-list li > span.status {
     width: 1em;
     height: 1em;
     display: inline-block;
@@ -123,43 +123,32 @@ p + p {
     float: right;
 }
 
-#beertastic li.closed > span.status {
+#beer-garden-list li.closed > span.status {
     background-color: #ff0000;
 }
 
-#beertastic li.open > span.status {
+#beer-garden-list li.open > span.status {
     background-color: #55AA27;
 }
 
-#beertastic li > span.ratings {
-    width: 100%;
-    display: block;
-}
-
-#beertastic li div.teaser {
+#beer-garden-list li span.teaser {
     display: none;
-    font-weight: normal;
+    width: 100%;
+    padding: 0.5em 0;
+    position: relative;
 }
 
-
-#beertastic li div.teaser strong {
-    font-weight: bold;
-    display: inline-block;
-    width: 100px;
-}
-
-#beertastic li.active div.teaser {
+#beer-garden-list li.active span.teaser {
     display: block;
-    padding: 1em 0;
 }
 
-#beertastic li div.teaser img {
-    width: 200px;
+#beer-garden-list li span.teaser img {
+    width: 100px;
     float: left;
 }
 
-#beertastic li div.teaser p {
-    padding-left: 215px;
+#beer-garden-list li span.teaser p {
+    padding-left: 110px;
 }
 
 .details .headline {
@@ -214,7 +203,7 @@ header i.back {
     top: 0.75em;
 }
 
-#beertastic li > span.fa {
+#beer-garden-list li > span.fa {
     display: block;
     clear: both;
     width: 1em;
@@ -222,11 +211,11 @@ header i.back {
     overflow: hidden;
 }
 
-#beertastic li > span.ratings > span::before {
+#beer-garden-list li > span.ratings > span::before {
     padding-right: 0.25em;
 }
 
-#beertastic li > span.ratings > span.fa-thumbs-down {
+#beer-garden-list li > span.ratings > span.fa-thumbs-down {
     display: inline-block;
     margin-left: 1em;
 }

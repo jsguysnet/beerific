@@ -40,16 +40,121 @@
                 <i class="fa fa-search magnify"></i>
             </form>
         </header>
-        <main id="content" role="content">
-            <ul id="beertastic"></ul>
-        </main>
+        <main id="content"></main>
         <footer>
-            <ul class="tab-navigation"></ul>
+            <ul class="tab-navigation">
+                <li class="map">
+                    <i class="fa fa-map-o"></i>
+                </li>
+                <li class="list"></li>
+                <li class="settings">
+                    <i class="fa fa-cog"></i>
+                </li>
+            </ul>
         </footer>
     </div>
-    <script type="text/javascript" src="js/beerific.js"></script>
-    <script>
-        beerList();
+
+    <script src="js/react/build/react.js"></script>
+    <script src="js/react/build/react-dom.js"></script>
+    <script src="js/react/build/babel.js"></script>
+
+    <script src="js/beerific.js"></script>
+
+    <script type="text/babel">
+            /* component BeerGarden */
+            var BeerGarden = React.createClass({
+                getInitialState: function () {
+                    return { active: false };
+                },
+
+                handleClick: function (event) {
+                    var items = document.getElementsByClassName('beer-garden');
+
+                    for (var i = 0; i < items.length; i++) {
+                        items[i].setAttribute('class', items[i].getAttribute('class').replace(/(\s?active)/, ''))
+                    }
+
+                    this.setState({ active: !this.state.active });
+                },
+
+                render: function () {
+                    var beerGardenCls = 'beer-garden ' + this.props.status;
+                    beerGardenCls += this.state.active ? ' active' :'';
+
+                    var detailedLink = 'detail.html?garden=' + this.props.id;
+
+                    return (
+                        <li className={beerGardenCls} onClick={this.handleClick}>
+                            <span className="title">{this.props.title}</span>
+                            <span className="status"></span>
+                            <span className="teaser">
+                                <img src={this.props.image} />
+                                <p>{this.props.teaser}</p>
+                                <p>
+                                    <a className="link more" href={detailedLink}>mehr lesen</a>
+                                </p>
+                            </span>
+                        </li>
+                    );
+                }
+            });
+
+            /* component BeerGardenList */
+            var BeerGardenList = React.createClass({
+                initialized: false,
+
+                getInitialState: function () {
+                    return {
+                        items: []
+                    };
+                },
+
+                filter: function () {
+                    var self = this;
+                    Beerific.getData(function (data) {
+                        if (!self.initialized) {
+                            self.initialized = true;
+                        }
+
+                        self.setState({items: data.content});
+                    });
+                },
+
+                render: function () {
+                    if (!this.initialized) {
+                        this.filter();
+                    }
+
+                    if (0 === this.state.items.length) {
+                        return null;
+                    }
+
+                    var items = this.state.items;
+
+                    return (
+                            <ul id="beer-garden-list">
+                                {
+                                    items.map(function (item) {
+                                        var teaserImage = item.images ? item.images[0].src : 'fallback.png';
+
+                                        return <BeerGarden
+                                            key={item.id}
+                                            id={item.id}
+                                            title={item.title}
+                                            status={item.status}
+                                            teaser={item.teaser}
+                                            image={teaserImage}
+                                        />;
+                                    })
+                                }
+                            </ul>);
+                }
+            });
+
+            ReactDOM.render(
+                <BeerGardenList filter="a" />,
+                document.getElementById('content')
+            );
     </script>
 </body>
 </html>
