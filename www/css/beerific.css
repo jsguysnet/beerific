@@ -97,20 +97,43 @@ p + p {
 }
 
 #beertastic {
-    padding: 0.5em 0 0;
+    padding: 0.25em 0 0;
+    list-style-type: none;
+    font-size: 0.9em;
+    line-height: 1.25em;
+}
+
+#beertastic li + li {
+    border-top: 1px solid #999;
 }
 
 #beertastic li {
-    list-style-image: url(../img/favicon/favicon-16x16.png);
-    list-style-position: inside;
-    padding: 0.1em 0;
+    margin: 0;
+    padding: 0.5em;
+    position: relative;
+    clear: right;
+    font-weight: bold;
 }
 
-.start h1 {
+#beertastic li > span.status {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    border-radius: 100%;
+    float: right;
+}
+
+#beertastic li.closed > span.status {
+    background-color: #ff0000;
+}
+
+#beertastic li.open > span.status {
+    background-color: #55AA27;
+}
+
+#beertastic li > span.ratings {
     width: 100%;
-    text-align: center;
-    position: fixed;
-    bottom: 20%;
+    display: block;
 }
 
 .details .headline {
@@ -163,4 +186,21 @@ header i.back {
     left: 1em;
     position: absolute;
     top: 0.75em;
+}
+
+#beertastic li > span.fa {
+    display: block;
+    clear: both;
+    width: 1em;
+    height: 1em;
+    overflow: hidden;
+}
+
+#beertastic li > span.ratings > span::before {
+    padding-right: 0.25em;
+}
+
+#beertastic li > span.ratings > span.fa-thumbs-down {
+    display: inline-block;
+    margin-left: 1em;
 }
