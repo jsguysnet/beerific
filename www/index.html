@@ -8,8 +8,9 @@
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 
-    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" type="text/css" href="css/beerific.css">
+    <link rel="stylesheet" type="text/css" href="css/simplegrid.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
     <link rel="apple-touch-icon" sizes="57x57" href="/img/favicon/apple-icon-57x57.png">
@@ -35,25 +36,26 @@
 <body class="start">
     <div class="app">
         <header>
-            <form class="search">
-                <input class="search-field" name="query" type="search" placeholder="Finde deinen Biergarten ...">
-                <i class="fa fa-search magnify"></i>
-            </form>
+            <!-- TODO React Component: FilterableBeergardenList
+                <!-- TODO React Component: SearchBar (onChange with callback to Filterable BeergardenList-->
+                <!-- TODO React Component: BeergardenList -->
+                    <!-- TODO React Component: Beergarden -->
         </header>
         <main id="content"></main>
         <footer>
             <ul class="tab-navigation">
-                <li class="map">
+                <li class="col-1-3">
                     <i class="fa fa-map-o"></i>
                 </li>
-                <li class="list"></li>
-                <li class="settings">
+                <li class="col-1-3 list"></li>
+                <li class="col-1-3">
                     <i class="fa fa-cog"></i>
                 </li>
             </ul>
         </footer>
     </div>
 
+    <script src="js/jquery/2.2.4/jquery.min.js"></script>
     <script src="js/react/build/react.js"></script>
     <script src="js/react/build/react-dom.js"></script>
     <script src="js/react/build/babel.js"></script>
@@ -68,32 +70,34 @@
                 },
 
                 handleClick: function (event) {
-                    var items = document.getElementsByClassName('beer-garden');
-
-                    for (var i = 0; i < items.length; i++) {
-                        items[i].setAttribute('class', items[i].getAttribute('class').replace(/(\s?active)/, ''))
-                    }
-
-                    this.setState({ active: !this.state.active });
+                    var detailedLink = 'detail.html?garden=' + this.props.id;
+                    location.href = detailedLink;
                 },
 
                 render: function () {
                     var beerGardenCls = 'beer-garden ' + this.props.status;
                     beerGardenCls += this.state.active ? ' active' :'';
 
-                    var detailedLink = 'details.html?garden=' + this.props.id;
+                    var detailedLink = 'detail.html?garden=' + this.props.id;
+                    var status = 'col-1-2 status align-left ' + this.props.status;
+                    var rating = 'col-1-2 rating align-right rating-' + this.props.rating;
 
                     return (
                         <li className={beerGardenCls} onClick={this.handleClick}>
-                            <span className="title">{this.props.title}</span>
-                            <span className="status"></span>
-                            <span className="teaser">
-                                <img src={this.props.image} />
-                                <p>{this.props.teaser}</p>
-                                <p>
-                                    <a className="link more" href={detailedLink}>mehr lesen</a>
-                                </p>
-                            </span>
+                            <p className="grid">
+                                <span className="col-1-2 title align-left">{this.props.title}</span>
+                                <span className="col-1-2 distance align-right">1,4 km</span>
+                            </p>
+                            <p className="grid">
+                                <span className={status}>12:00 - 19:00 Uhr</span>
+                                <span className={rating}>
+                                    <i className="fa fa-star"></i>
+                                    <i className="fa fa-star"></i>
+                                    <i className="fa fa-star"></i>
+                                    <i className="fa fa-star-o"></i>
+                                    <i className="fa fa-star-o"></i>
+                                </span>
+                            </p>
                         </li>
                     );
                 }
@@ -101,58 +105,103 @@
 
             /* component BeerGardenList */
             var BeerGardenList = React.createClass({
-                initialized: false,
-
                 getInitialState: function () {
+                    console.log('yyy');
+
                     return {
                         items: []
                     };
                 },
 
-                filter: function () {
-                    var self = this;
-                    Beerific.getData(function (data) {
-                        if (!self.initialized) {
-                            self.initialized = true;
-                        }
+                componentDidMount: function () {
+                    this.filter();
+                },
 
-                        self.setState({items: data.content});
+                filter: function (search) {
+                    var self = this;
+
+                    Beerific.getData(search, function (data) {
+                        self.setState({items: data});
                     });
                 },
 
                 render: function () {
-                    if (!this.initialized) {
-                        this.filter();
-                    }
-
                     if (0 === this.state.items.length) {
                         return null;
                     }
 
-                    var items = this.state.items;
+                    var items = this.props.data || this.state.items;
 
                     return (
-                            <ul id="beer-garden-list">
+                            <ul className={this.props.filter} id="beer-garden-list">
                                 {
                                     items.map(function (item) {
-                                        var teaserImage = item.images ? item.images[0].src : 'fallback.png';
-
-                                        return <BeerGarden
-                                            key={item.id}
-                                            id={item.id}
-                                            title={item.title}
-                                            status={item.status}
-                                            teaser={item.teaser}
-                                            image={teaserImage}
-                                        />;
+                                        return (
+                                            <BeerGarden
+                                                key={item.id}
+                                                id={item.id}
+                                                title={item.label}
+                                                status={item.status}
+                                                teaser={item.teaser} />
+                                        );
                                     })
                                 }
                             </ul>);
                 }
             });
 
+            var SearchBar = React.createClass({
+                handleChange: function () {
+                    this.props.onInputChange(this.refs.filterText.value);
+                },
+
+                render: function () {
+                    return (
+                        <form className="search">
+                            <input className="search-field"
+                                   onChange={this.handleChange}
+                                   value={this.props.filterText}
+                                   ref="filterText"
+                                   type="text"
+                                   placeholder="Finde deinen Biergarten..." />
+                            <i className="fa fa-search magnify"></i>
+                        </form>
+                    );
+                }
+
+
+            });
+
+            var FilterableBeergardenList = React.createClass({
+                getInitialState: function () {
+                    return { filterText: '' }
+                },
+
+                handleInputChange: function (text) {
+                    var self = this;
+
+                    Beerific.getData(text, function (data) {
+                        data = data.filter(function (item) {
+                            var regex = new RegExp(text, 'i');
+                            return -1 !== item.label.search(regex);
+                        });
+
+                        self.setState({items: data});
+                    });
+                },
+
+                render: function () {
+                    return (
+                        <div>
+                            <SearchBar onInputChange={this.handleInputChange}/>
+                            <BeerGardenList data={this.state.items}/>
+                        </div>
+                    );
+                }
+            });
+
             ReactDOM.render(
-                <BeerGardenList filter="a" />,
+                <FilterableBeergardenList />,
                 document.getElementById('content')
             );
     </script>

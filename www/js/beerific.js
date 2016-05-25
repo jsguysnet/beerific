@@ -1,21 +1,18 @@
 var Beerific = {
-    getData: function (callback) {
-        var xmlHttp = null;
-        try {
-            xmlHttp = new XMLHttpRequest();
-        } catch (e) {
-            // Fehlerbehandlung, wenn die Schnittstelle vom Browser nicht unterstützt wird.
-        }
-        if (xmlHttp) {
-            xmlHttp.open('GET', 'data/beer.json', true);
-            xmlHttp.onreadystatechange = function () {
-                if (4 === xmlHttp.readyState) {
-                    var json = JSON.parse(xmlHttp.responseText);
-                    callback(json);
+    getData: function (filter, callback) {
+        console.log(filter);
+        var url = 'http://api.beerific.jsguys.net/beergarden';
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+
+            success: function (data, status) {
+                if (data.success) {
+                    callback(data.data);
                 }
-            };
-            xmlHttp.send(null);
-        }
+            }
+        });
     },
     
     createDetails: function (beer) {
