@@ -1,17 +1,27 @@
 var Beerific = {
+    BASE_URL: 'http://api.beerific.jsguys.net/',
+    
     getData: function (filter, callback) {
-        console.log(filter);
-        var url = 'http://api.beerific.jsguys.net/beergarden';
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-
-            success: function (data, status) {
-                if (data.success) {
-                    callback(data.data);
-                }
+        this._request('v_beergarden_list' , function (data) {
+            if (data.success) {
+                callback(data.data);
             }
+        });
+    },
+    
+    getDataset: function (table, id, callback) {
+        this._request(table + '/' + id, function (data) {
+            if (data.success) {
+                callback(data.data[0]);
+            }
+        })
+    },
+    
+    _request: function (url, success) {
+        $.ajax({
+            url: this.BASE_URL + url,
+            method: 'GET',
+            success: success
         });
     },
     
