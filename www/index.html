@@ -86,7 +86,7 @@
                         <li className={beerGardenCls} onClick={this.handleClick}>
                             <p className="grid">
                                 <span className="col-1-2 title align-left">{this.props.title}</span>
-                                <span className="col-1-2 distance align-right">1,4 km</span>
+                                <span className="col-1-2 distance align-right">{this.props.distance} km</span>
                             </p>
                             <p className="grid">
                                 <span className={status}>12:00 - 19:00 Uhr</span>
@@ -142,7 +142,8 @@
                                                 id={item.id}
                                                 title={item.label}
                                                 status={item.status}
-                                                teaser={item.teaser} />
+                                                teaser={item.teaser}
+                                                distance={item.distance} />
                                         );
                                     })
                                 }
