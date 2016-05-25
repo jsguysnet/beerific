@@ -1,5 +1,8 @@
 var Beerific = {
+    BASE_URL: 'http://api.beerific.jsguys.net/',
+    
     EARTH_RADIUS: 6378.388,
+    BASE_URL: 'http://api.beerific.jsguys.net/',
 
     getData: function (filter, callback) {
         var self = this;
@@ -7,26 +10,34 @@ var Beerific = {
 
         var lat = 48.090180;
         var lng = 11.497929;
+        
+        this._request('v_beergarden_list' , function (data) {
+            if (data.success) {
+                var beergarden = data.data;
 
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: {
-                query: 'SELECT * FROM v_beergarden_list'
-            },
-
-            success: function (data, status) {
-                if (data.success) {
-                    var beergarden = data.data;
-
-                    var items = data.data.map(function (item) {
-                        item['distance'] = self._getDistance(lat, lng, item.latitude, item.longitude, 1);
-                        return item;
-                    });
-                    
-                    callback(items);
-                }
+                var items = data.data.map(function (item) {
+                    item['distance'] = self._getDistance(lat, lng, item.latitude, item.longitude, 1);
+                    return item;
+                });
+                
+                callback(items);
             }
+        });
+    },
+    
+    getDataset: function (table, id, callback) {
+        this._request(table + '/' + id, function (data) {
+            if (data.success) {
+                callback(data.data[0]);
+            }
+        })
+    },
+    
+    _request: function (url, success) {
+        $.ajax({
+            url: this.BASE_URL + url,
+            method: 'GET',
+            success: success
         });
     },
 

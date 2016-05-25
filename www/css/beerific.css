@@ -5,7 +5,7 @@ html {
 }
 
 body {
-    background-color: #fbd118;
+    background-color: #fff;
     background-image: linear-gradient(top, #FBCB23 0%, #fbd118 51%);
     background-image: -moz-linear-gradient(top, #FBCB23 0%, #fbd118 51%);
     background-image: -webkit-linear-gradient(top, #FBCB23 0%, #fbd118 51%);
@@ -25,11 +25,6 @@ body {
     font-family: Helvetica, Arial, sans-serif;
     height: 100%;
     width: 100%;
-}
-
-header {
-    padding: 0.5em 0.5em 0;
-    position: relative;
 }
 
 .row {
@@ -118,69 +113,172 @@ header {
 }
 
 .tab-navigation {
-    background-image: linear-gradient(#555, #333, #333, #333);
-    position: fixed;
+    background-color: #fafafa;
+    border-top: 1px solid #ddd;
     bottom: 0;
-    left: 0;
-    width: 100%;
     height: 3rem;
-    padding: 0;
+    left: 0;
+    list-style: none;
     margin: 0;
+    padding: 0;
+    position: fixed;
+    width: 100%;
 }
 
 .tab-navigation li {
-    color: #fff;
-    display: block;
-    float: left;
-    font-size: 2rem;
+    color: #aaa;
+    font-size: 1.5rem;
     height: 100%;
     margin: 0;
-    padding: 0.5rem 0;
+    padding: 0.75rem 0;
     position: relative;
     text-align: center;
 }
 
+.tab-navigation li.active {
+    color: #ebbb23;
+}
+
 .tab-navigation li.list {
-    background-image: url(../img/logo-white.png);
-    background-position: center 0.5rem;
+    background-image: url(../img/icon-gray.png);
+    background-position: center 0.125rem;
     background-repeat: no-repeat;
-    background-size: auto 2rem;
-    border-left: #667 solid 1px;
-    border-right: #667 solid 1px;
-    width: calc(33.333333% - 2px);
+    background-size: auto 1.5rem;
+    border: 0 solid #ddd;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    height: calc(100% - 1rem);
+    margin: 0.5rem 0;
+}
+
+.tab-navigation li.list.active {
+    background-image: url(../img/icon.png);
 }
 
 p + p {
     margin-top: 1em;
 }
 
-.details .headline {
+#beer-garden-list {
+    list-style-type: none;
+    font-size: 0.9em;
+    line-height: 1.25em;
+    border-top: 1px solid #777777;
+    border-bottom: 1px solid #777777;
+}
+
+#beer-garden-list li + li {
+    border-top: 1px solid #999;
+}
+
+#beer-garden-list li {
+    margin: 0;
+    position: relative;
+    font-weight: bold;
+    padding: 0.5em;
+    clearfix: after;
+    clear: both;
+}
+
+#beer-garden-list li > span.status {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    border-radius: 100%;
+    float: right;
+}
+
+#beer-garden-list li.closed > span.status {
+    background-color: #ff0000;
+}
+
+#beer-garden-list li.open > span.status {
+    background-color: #55AA27;
+}
+
+#beer-garden-list li span.teaser {
+    display: none;
+    width: 100%;
+    padding: 0.5em 0;
+    position: relative;
+}
+
+#beer-garden-list li.active span.teaser {
+    display: block;
+}
+
+#beer-garden-list li span.teaser img {
+    width: 100px;
+    float: left;
+}
+
+#beer-garden-list li span.teaser p {
+    padding-left: 110px;
+}
+
+header {
+    background-color: rgba(252, 252, 252, 0.9);
+    border-bottom: 1px solid #777;
+    color: #000;
+    left: 0;
+    padding: 0.6rem 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+header .title h1 {
+    font-size: 1.25rem;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+header .back {
+    text-align: center;
+}
+
+.center {
+    text-align: center;
+}
+
+#details {
+    margin: 2.5rem 0 3rem;
+}
+
+#details .images {
     background-color: #777;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 100% auto;
     display: block;
     height: 12em;
-    margin: -1em -1em 1em;
+    width: 100%;
 }
 
-.details .features {
+#details .summary,
+#details .description {
+    padding: 1em;
+}
+
+#details .summary {
     border-bottom: 1px solid #777;
     margin-bottom: 1em;
     padding-bottom: 1em;
 }
 
-.details .features span + span {
-    padding-left: 1em;
+#details .summary span + span::before {
+    content: ' ';
 }
 
-.details .features span i.fa {
-    padding-right: 0.25em;
+#details .summary i.fa {
+    margin-right: 0.5em;
     width: 1em;
 }
 
-.details .features p + p {
-    margin-top: 0.25rem;
+#details .summary p {
+    margin: 0;
 }
 
 .details .food {
@@ -189,19 +287,4 @@ p + p {
 
 .details .food h2 {
     font-size: 1.5em;
-}
-
-header .title {
-    font-size: 1.25rem;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    width: 100%;
-}
-
-header i.back {
-    display: inline;
-    left: 1em;
-    position: absolute;
-    top: 0.75em;
 }
