@@ -55,11 +55,11 @@ header {
 #content {
     background-color: #fff;
     color: #777;
-    margin: 1em 0 0;
 }
 
 .tab-navigation {
-    background-image: linear-gradient(#555, #333, #333, #333);
+    background-color: #fafafa;
+    border-top: 1px solid #ddd;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -68,26 +68,36 @@ header {
 }
 
 .tab-navigation li {
-    color: #fff;
+    color: #aaa;
     display: block;
     float: left;
-    font-size: 2rem;
+    font-size: 1.5rem;
     height: 100%;
     margin: 0;
-    padding: 0.5rem 0;
+    padding: 0.75rem 0;
     position: relative;
     text-align: center;
     width: 33.333333%;
 }
 
+.tab-navigation li.active {
+    color: #ebbb23;
+}
+
 .tab-navigation li.list {
-    background-image: url(../img/logo-white.png);
-    background-position: center 0.5rem;
+    background-image: url(../img/icon-gray.png);
+    background-position: center 0;
     background-repeat: no-repeat;
-    background-size: auto 2rem;
-    border-left: #667 solid 1px;
-    border-right: #667 solid 1px;
-    width: calc(33.333333% - 2px);
+    background-size: auto 1.5rem;
+    border: 0 solid #ddd;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    height: calc(100% - 1rem);
+    margin: 0.5rem 0;
+}
+
+.tab-navigation li.list.active {
+    background-image: url(../img/icon.png);
 }
 
 p + p {
@@ -151,32 +161,56 @@ p + p {
     padding-left: 110px;
 }
 
-.details .headline {
-    background-color: #777;
+header {
+    background-color: #e9b910;
+    border-bottom: 1px solid #777;
+    color: #000;
+    height: 2.5rem;
+    left: 0;
+    padding: 0.6rem 0 0.25rem 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+.center {
+    text-align: center;
+}
+
+#details {
+    margin: 2.5rem 0 3rem;
+}
+
+#details .images {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 100% auto;
     display: block;
     height: 12em;
-    margin: -1em -1em 1em;
+    width: 100%;
 }
 
-.details .features {
+#details .summary,
+#details .description {
+    padding: 1em;
+}
+
+#details .summary {
     border-bottom: 1px solid #777;
     margin-bottom: 1em;
     padding-bottom: 1em;
 }
 
-.details .features span + span {
-    padding-left: 1em;
+#details .summary span + span::before {
+    content: ' ';
 }
 
-.details .features span i.fa {
-    padding-right: 0.25em;
+#details .summary i.fa {
+    margin-right: 0.5em;
     width: 1em;
 }
 
-.details .features p + p {
+#details .summary p + p {
     margin-top: 0.25rem;
 }
 
