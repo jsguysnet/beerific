@@ -1,4 +1,4 @@
 platforms/*
 hooks/
-plugins/
+plugins/*
 .idea

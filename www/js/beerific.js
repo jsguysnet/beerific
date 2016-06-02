@@ -1,30 +1,74 @@
 var Beerific = {
-    BASE_URL: 'http://api.beerific.jsguys.net/',
-    
-    EARTH_RADIUS: 6378.388,
-    BASE_URL: 'http://api.beerific.jsguys.net/',
+    BASE_URL: 'http://api.beerific.jsguys.net',
+	//BASE_URL: 'http://localhost:1812',
 
-    getData: function (filter, callback) {
+    _data: null,
+
+    getData: function (filter, refresh, callback) {
         var self = this;
-        var url = 'http://api.beerific.jsguys.net';
 
-        var lat = 48.090180;
-        var lng = 11.497929;
-        
-        this._request('v_beergarden_list' , function (data) {
-            if (data.success) {
-                var beergarden = data.data;
+        refresh = !!refresh;
+        if (refresh) {
+            self._data = null;
+        }
 
-                var items = data.data.map(function (item) {
-                    item['distance'] = self._getDistance(lat, lng, item.latitude, item.longitude, 1);
-                    return item;
-                });
-                
-                callback(items);
-            }
-        });
+        callback = callback || function (data) { self._data = data; };
+
+        if (self._data && !refresh) {
+            callback(self._data);
+            return;
+        }
+
+        if (null === self._data) {
+            $('.overlay-load').show();
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this._getBeergardenList(position, filter, callback);
+                },
+                (error) => {
+                    alert('Der Standort konnte nicht ermittelt werden.');
+                    this._getBeergardenList(null, null, callback);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000
+                }
+            );
+        }
     },
-    
+
+    _getBeergardenList: function (position, filter, callback) {
+        var self = this;
+        var url = self.BASE_URL + '/latest/beergarden/search.service';
+		
+		position = position || { latitude: 48.090180, longitude: 11.497929 };
+		
+		var lat = position.coords ? position.coords.latitude : position.latitude;
+        var lng = position.coords ? position.coords.longitude : position.longitude;
+		
+		var postData = {
+			latitude: lat,
+			longitude: lng,
+			username: 'jsguys',
+			password: 'jsguys'
+		};
+
+		if (filter) {
+			postData.filter = filter;
+		}
+		
+		$.ajax(url, {
+			method: 'post',
+			data: postData,
+			success: function (data) {
+				if (data.success) {
+					self._data = data.data;
+                    callback(data.data);
+				}
+			}
+		});
+    },
+
     getDataset: function (table, id, callback) {
         this._request(table + '/' + id, function (data) {
             if (data.success) {
@@ -39,17 +83,6 @@ var Beerific = {
             method: 'GET',
             success: success
         });
-    },
-
-    _getDistance: function (lat1, lng1, lat2, lng2, accuracy) {
-        var self = this;
-
-        var latProd = Math.sin(lat1) * Math.sin(lat2);
-        var lngProd = Math.cos(lat1) * Math.cos(lat2) * Math.cos(lng2 - lng1);
-        var acc = accuracy ? Math.pow(10, accuracy) : 10;
-
-        distance = self.EARTH_RADIUS * Math.acos(latProd + lngProd) * (Math.PI / 180);
-        return Math.round(distance * acc) / acc;
     },
 
     createDetails: function (beer) {
@@ -91,18 +124,6 @@ function beerDetails() {
     }
 }
 
-function beerList() {
-    window.onload = function () {
-        Beerific.getData(function (data) {
-            if (data.success) {
-                var content = document.getElementById('content');
-
-                var beertastic = document.getElementById('beertastic');
-                Beerific.createList(data.content, beertastic);
-            }
-            else {
-                alert('Fehler beim Laden der Daten, du gehst heute nüchtern nach Hause!')
-            }
-        })
-    };
-}
+$(window).load(function () {
+    Beerific.getData();
+});

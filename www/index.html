@@ -35,12 +35,6 @@
 </head>
 <body class="start">
     <div class="app">
-        <header>
-            <!-- TODO React Component: FilterableBeergardenList
-                <!-- TODO React Component: SearchBar (onChange with callback to Filterable BeergardenList-->
-                <!-- TODO React Component: BeergardenList -->
-                    <!-- TODO React Component: Beergarden -->
-        </header>
         <main id="content"></main>
         <footer>
             <ul class="tab-navigation">
@@ -53,6 +47,17 @@
                 </li>
             </ul>
         </footer>
+    </div>
+    <div class="overlay overlay-load">
+        <span>
+            <i class="fa fa-refresh active"></i>
+            <span>Daten werden geladen...</span>
+        </span>
+    </div>
+    <div class="overlay overlay-filter">
+        <div class="filter">
+            <input type="range" min="1" max="100">
+        </div>
     </div>
 
     <script src="js/jquery/2.2.4/jquery.min.js"></script>
@@ -89,7 +94,7 @@
                                 <span className="col-1-2 distance align-right">{this.props.distance} km</span>
                             </p>
                             <p className="grid">
-                                <span className={status}>12:00 - 19:00 Uhr</span>
+                                <span className={status}>&nbsp;</span>
                                 <span className={rating}>
                                     <i className="fa fa-star"></i>
                                     <i className="fa fa-star"></i>
@@ -106,21 +111,30 @@
             /* component BeerGardenList */
             var BeerGardenList = React.createClass({
                 getInitialState: function () {
-                    console.log('yyy');
-
                     return {
                         items: []
                     };
                 },
 
                 componentDidMount: function () {
+                    var self = this;
+
+                    if (null === Beerific._data) {
+                        window.setTimeout(function () {
+                            self.componentDidMount();
+                        }, 500);
+
+                        return;
+                    }
+
                     this.filter();
                 },
 
                 filter: function (search) {
                     var self = this;
 
-                    Beerific.getData(search, function (data) {
+                    Beerific.getData(search, false, function (data) {
+                        $('.overlay-load').hide();
                         self.setState({items: data});
                     });
                 },
@@ -151,21 +165,37 @@
                 }
             });
 
-            var SearchBar = React.createClass({
+            var SearchForm = React.createClass({
                 handleChange: function () {
                     this.props.onInputChange(this.refs.filterText.value);
                 },
 
+                handleSubmit: function (event) {
+                    event.preventDefault();
+                    return false;
+                },
+
+                handleReload: function () {
+                    this.refs.filterText.value = '';
+                    this.props.onInputChange(this.refs.filterText.value, true);
+                },
+
+                handleFilter: function () {
+                    $('.overlay-filter').show();
+                },
+
                 render: function () {
                     return (
-                        <form className="search">
-                            <input className="search-field"
+                        <form className="search grid" onSubmit={this.handleSubmit}>
+                            <i className="fa fa-search magnify"></i>
+                            <input className="col-9-12 search-field"
                                    onChange={this.handleChange}
                                    value={this.props.filterText}
                                    ref="filterText"
                                    type="text"
-                                   placeholder="Finde deinen Biergarten..." />
-                            <i className="fa fa-search magnify"></i>
+                                   placeholder="Biergarten finden..." />
+                            <i className="fa fa-sliders" onClick={this.handleFilter}></i>
+                            <i className="fa fa-refresh" onClick={this.handleReload}></i>
                         </form>
                     );
                 }
@@ -178,15 +208,18 @@
                     return { filterText: '' }
                 },
 
-                handleInputChange: function (text) {
+                handleInputChange: function (text, refresh) {
                     var self = this;
 
-                    Beerific.getData(text, function (data) {
+                    refresh = !!refresh;
+
+                    Beerific.getData(text, refresh, function (data) {
                         data = data.filter(function (item) {
                             var regex = new RegExp(text, 'i');
                             return -1 !== item.label.search(regex);
                         });
 
+                        $('.overlay-load').hide();
                         self.setState({items: data});
                     });
                 },
@@ -194,7 +227,7 @@
                 render: function () {
                     return (
                         <div>
-                            <SearchBar onInputChange={this.handleInputChange}/>
+                            <SearchForm onInputChange={this.handleInputChange}/>
                             <BeerGardenList data={this.state.items}/>
                         </div>
                     );
