@@ -4,10 +4,110 @@ var BeerGarden = React.createClass({
     
     return (
       <div id="details">
-        <Images images={data.images} />
-        <Summary data={data} />
-        <Description text={data.description} />
+        <Images gardenId={data.id} />
+        <Address address={data} />
+        <Rating value={data.rating} />
+        <Info icon="beer" content="7,80 €" />
+        <Info icon="clock-o" content="11:00 - 23:00 Uhr" />
+        <Info icon="info" content={data.description} />
       </div>
+    );
+  }
+});
+
+var Info = React.createClass({
+  parseHtml: function () {
+    var content = this.props.content || '';
+    
+    if (content.match(/<.+>/)) {
+      return {__html: marked(content || '')};
+    }
+    else {
+      return {__html: content};
+    }
+  },
+  
+  getContent: function () {
+    if (this.props.children) {
+      return (
+        <div className="col-11-12">
+          {this.props.children}
+        </div>
+      );
+    }
+    else {
+      return (
+        <div className="col-11-12" dangerouslySetInnerHTML={this.parseHtml()} />
+      );
+    }
+  },
+  
+  render: function () {
+    var iconClass = 'fa';
+    
+    if (!this.props.content && !this.props.children) {
+      return (
+        <span />
+      );
+    }
+    
+    if (this.props.icon) { 
+      iconClass += ' fa-' + this.props.icon;
+    }
+    
+    
+    return (
+      <div className="info clearfix">
+        <div className="col-1-12 category-icon">
+          <i className={iconClass} />
+        </div>
+        {this.getContent()}
+      </div>
+    )
+  }
+});
+
+var Images = React.createClass({
+  render: function () {
+    var src = 'img/beergarden/' + this.props.gardenId + '/1.jpg';
+    var style = {
+      backgroundImage: 'url(' + src + ')'
+    };
+    
+    return (
+      <div className="images" style={style} />
+    );
+  }
+});
+
+var Rating = React.createClass({
+  render: function () {
+    return (
+      <Info>
+        <div className="rating">
+          <i className="fa fa-star" />
+          <i className="fa fa-star" />
+          <i className="fa fa-star" />
+          <i className="fa fa-star-o" />
+          <i className="fa fa-star-o" />
+        </div>
+      </Info>
+    )
+  }
+});
+
+var Address = React.createClass({  
+  render: function () {
+    var data = this.props.address || {};
+    var address = null;
+    
+    if (data.street) {
+      address = data.street + ' ' + data.housenumber + '<br>' +
+        data.zip + ' ' + data.city;
+    }
+    
+    return (
+      <Info icon="map-marker" content={address} />
     );
   }
 });
@@ -17,7 +117,9 @@ var Details = React.createClass({
   
   getInitialState: function () {
     return {
-      data: {}
+      data: {
+        label: null
+      }
     };
   },
   
@@ -63,7 +165,7 @@ var Header = React.createClass({
   render: function () {
     return (
       <header className="app">
-        <div className="col-2-12 back">
+        <div className="col-2-12 button back">
           <a href="index.html">
             <i className="fa fa-chevron-left" />
           </a>
@@ -71,8 +173,8 @@ var Header = React.createClass({
         <div className="col-8-12 title">
           <h1>{this.props.title}</h1>
         </div>
-        <div className="col-2-12">
-          &nbsp;
+        <div className="col-2-12 button favorite">
+          <i className="fa fa-heart-o" />
         </div>
       </header>
     );
@@ -97,97 +199,6 @@ var Footer = React.createClass({
   }
 })
 
-var Images = React.createClass({
-  render: function () {
-    var images = this.props.images || [];
-    var image = images[0] ? images[0] : {
-      src: '',
-      alt: 'Wir haben noch kein Bild von diesem Biergarten'
-    };
-    var style = {
-      backgroundImage: 'url(' + image.src + ')'
-    };
-    
-    return (
-      <div className="images" style={style} />
-    );
-  }
-});
-
-var Summary = React.createClass({
-  render: function () {
-    return (
-      <div className="summary grid">
-        <Rating value={this.props.data.rating} />
-        <Feature icon="beer" value="7,80 €" />
-        <Feature icon="clock-o" value="24/7" />
-        <Address address={this.props.data} />
-      </div>
-    );
-  }
-});
-
-var Feature = React.createClass({
-  render: function () {
-    var icon = 'fa fa-' + this.props.icon;
-    
-    return (
-      <div className="col-1-2">
-        <i className={icon}></i>
-        <span>{this.props.value}</span>
-      </div>
-    );
-  }
-});
-
-var Rating = React.createClass({
-  render: function () {
-    return (
-      <div className="rating">
-        <i className="fa fa-star" />
-        <i className="fa fa-star" />
-        <i className="fa fa-star-half-o" />
-        <i className="fa fa-star-o" />
-        <i className="fa fa-star-o" />
-      </div>
-    )
-  }
-});
-
-var Address = React.createClass({
-  render: function () {
-    var data = this.props.address || {};
-    
-    return (
-      <div className="address">
-        <p>
-          <i className="fa fa-map-marker" />
-          <span className="street">{data.street}</span>
-          <span className="street-number">{data.housenumber}</span>
-        </p>
-        <p>
-          <i className="fa" />
-          <span className="zip">{data.zip}</span>
-          <span className="city">{data.city}</span>
-        </p>
-      </div>
-    );
-  }
-});
-
-var Description = React.createClass({
-  rawMarkUp: function () {
-    return {__html: marked(this.props.text || '')};
-  },
-  
-  render: function () {
-    return (
-      <div className="description">
-        <span dangerouslySetInnerHTML={this.rawMarkUp()} />
-      </div>
-    );
-  }
-});
 
 ReactDOM.render(
   <Details />,

@@ -16,6 +16,14 @@ body {
     width: 100%;
 }
 
+.clearfix::after {
+    content: '.';
+    clear: both;
+    display: block;
+    visibility: hidden;
+    height: 0;
+}
+
 .row {
     width: 100%;
     display: block;
@@ -194,13 +202,16 @@ p + p {
 }
 
 header {
-    background-color: rgba(252, 252, 252, 0.9);
-    color: #000;
+    background-color: #fac117;
+    border-bottom: 1px solid #777;
+    color: #777;
+    height: 3.5rem;
     left: 0;
-    padding: 0.6rem 0;
+    padding: 0.875rem 0;
     position: fixed;
     right: 0;
     top: 0;
+    z-index: 2000;
 }
 
 header .title h1 {
@@ -209,10 +220,17 @@ header .title h1 {
     margin: 0;
     padding: 0;
     text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    white-space: nowrap;
 }
 
-header .back {
+header .button {
     text-align: center;
+}
+
+header i.fa {
+    color: #777;
 }
 
 .center {
@@ -220,49 +238,49 @@ header .back {
 }
 
 #details {
-    margin: 2.5rem 0 3rem;
+    padding: 3.5rem 0 3rem;
 }
 
 #details .images {
-    background-color: #777;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 100% auto;
     display: block;
-    height: 12em;
+    height: 9em;
+    position: relative;
     width: 100%;
 }
 
-#details .summary,
-#details .description {
-    padding: 1em;
+#details .images::before {
+    background-image: url(../img/icon.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: auto 70%;
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
 }
 
-#details .summary {
+#details .info {
+    background-color: #fff;
     border-bottom: 1px solid #777;
-    margin-bottom: 1em;
-    padding-bottom: 1em;
+    padding: 0.75em 1em;
 }
 
-#details .summary span + span::before {
-    content: ' ';
+#details .info .category-icon i.fa {
+    color: #bbb;
 }
 
-#details .summary i.fa {
-    margin-right: 0.5em;
-    width: 1em;
-}
-
-#details .summary p {
+#details .info p {
     margin: 0;
 }
 
-.details .food {
-    margin-top: 1em;
-}
-
-.details .food h2 {
-    font-size: 1.5em;
+#details .info p + p {
+    margin-top: 0.5em;
 }
 
 .overlay {
