@@ -35,20 +35,6 @@
 </head>
 <body class="start">
     <div id="app"></div>
-    <!--<div class="overlay overlay-load">
-        <span>
-            <i class="fa fa-refresh active"></i>
-            <span>Daten werden geladen...</span>
-        </span>
-    </div>-->
-    <div class="overlay overlay-filter">
-        <div class="cmp-filter">
-            <div class="radius">Umkreissuche</div>
-            <div class="limit">Anzahl der Einträge</div>
-            <button>Abbrechen</button>
-            <button>Suchen</button>
-        </div>
-    </div>
 
     <script src="js/jquery/2.2.4/jquery.min.js"></script>
     <script src="js/react/build/react.js"></script>
@@ -160,7 +146,7 @@
                 },
 
                 handleFilter: function () {
-                    $('.overlay-filter').show();
+                    $('.cmp-beergarden-filter-overlay').show();
                 },
 
                 render: function () {
@@ -216,10 +202,113 @@
             });
 
             var BeergardenFilterOverlay = React.createClass({
+                _startPx: 0,
+                _endPx: 0,
+                _step: 0,
+
+                componentDidMount: function () {
+                    var self = this;
+
+                    var slider = $('#range-slider-radius');
+                    self._startPx = slider.offset().left;
+                    self._endPx = self._startPx + slider.outerWidth();
+                    self._step = 100 / slider.outerWidth();
+
+                    $('.cmp-beergarden-filter-overlay').hide();
+                    $('.cmp-beergarden-filter-overlay').css('visibility', 'visible');
+                },
+
+                getInitialState: function () {
+                    return {
+                        range: 0,
+                        moveable: false
+                    };
+                },
+
+                handleAbort: function () {
+                    $('.cmp-beergarden-filter-overlay').hide();
+                },
+
+                handleOK: function () {
+                    $('.cmp-beergarden-filter-overlay').hide();
+                },
+
+                activateMove: function () {
+                    var self = this;
+
+                    self.setState({
+                        moveable: true,
+                        range: self.state.range
+                    });
+                },
+
+                deactivateMove: function () {
+                    var self = this;
+
+                    self.setState({
+                        moveable: false,
+                        range: self.state.range
+                    });
+                },
+
+                handleMove: function (event) {
+                    var self = this;
+
+                    if (self.state.moveable) {
+                        event.persist();
+
+                        var pos = event.clientX - self._startPx;
+
+                        pos = pos < 0 ? 0 : pos;
+
+                        if (pos > self._endPx) {
+                            pos = self._endPx;
+                        }
+
+                        self.setState({
+                            moveable: true,
+                            range: pos
+                        });
+                    }
+                },
+
                 render: function () {
+                    var self = this;
+                    var slider = $('.cmp-slider');
+                    console.log(slider, self.state.range, self._step);
+                    slider.css('left', self.state.range * self._step + '%');
+
                     return (
                         <div className="cmp-beergarden-filter-overlay overlay">
-                            Filter
+                            <div className="cmp-filter">
+                                <div className="inner">
+                                    <h2><i className="fa fa-sliders"></i>Filter anwenden</h2>
+                                    <div className="cmp-range">
+                                        <div className="grid">
+                                            <label className="col-8-12">Umkreis:</label>
+                                            <span className="range-value col-4-12 no-padding align-right">0 km</span>
+                                        </div>
+                                        <div id="range-slider-radius" className="cmp-range-slider grid">
+                                            <span onMouseMove={this.handleMove}
+                                                  onMouseUp={this.deactivateMove}
+                                                  onMouseDown={this.activateMove}
+
+                                                  onTouchMove={this.handleMove}
+                                                  onTouchEnd={this.deactivateMove}
+                                                  onTouchCancel={this.deactivateMove}
+                                                  onTouchStart={this.activateMove}
+
+                                                  className="cmp-slider"></span>
+                                            <span className="range-slider-start col-1-2 ">0 km</span>
+                                            <span className="range-slider-end col-1-2 no-padding align-right">100 km</span>
+                                        </div>
+                                    </div>
+                                    <div className="action-buttons">
+                                        <button onClick={this.handleAbort} className="filter-cancel align-left">Abbrechen</button>
+                                        <button onClick={this.handleOK} className="filter-submit align-right">OK</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     );
                 }
@@ -245,7 +334,6 @@
                             <FilterableBeergardenList />
                             <BeergardenFilterOverlay />
                             <LoadingOverlay />
-                            <TabNavigation />
                         </div>
                     );
                 }
