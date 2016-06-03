@@ -20,7 +20,7 @@ var Beerific = {
         }
 
         if (null === self._data) {
-            $('.overlay-load').show();
+            $('.cmp-loading-overlay').show();
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     this._getBeergardenList(position, filter, callback);

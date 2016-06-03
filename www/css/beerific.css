@@ -31,11 +31,12 @@ body {
 }
 
 .search.grid {
-     position: relative;
-     padding: 0.5em 0;
-     width: 100%;
-     max-width: none;
- }
+    position: relative;
+    padding: 0.5em 0;
+    width: 100%;
+    max-width: none;
+    color: #777;
+}
 
 .search .search-field {
     font-size: 1.15em;
@@ -118,19 +119,20 @@ p + p {
     margin-top: 1em;
 }
 
-#beer-garden-list {
+.cmp-beergarden-list {
     list-style-type: none;
     font-size: 0.9em;
     line-height: 1.25em;
     background-color: #fff;
+    color: #777;
     margin: 0;
     padding: 0;
 }
 
-#beer-garden-list li {
+.cmp-beergarden-list li {
     margin: 0;
     position: relative;
-    padding: 0.5em;
+    padding: 0.56rem;
     clearfix: after;
     clear: both;
     border-top: 1px solid #999;
@@ -140,57 +142,32 @@ p + p {
     cursor: pointer;
 }
 
-#beer-garden-list li:last-child {
+.cmp-beergarden-list li:last-child {
     border-bottom: 1px solid #999;
 }
 
-#beer-garden-list li > span.status {
-    width: 1em;
-    height: 1em;
-    display: inline-block;
-    border-radius: 100%;
-    float: right;
-}
-
-#beer-garden-list li.closed > span.status {
-    background-color: #ff0000;
-}
-
-#beer-garden-list li.open > span.status {
-    background-color: #55AA27;
-}
-
-#beer-garden-list li span.teaser {
-    display: none;
-    width: 100%;
-    padding: 0.5em 0;
-    position: relative;
-}
-
-#beer-garden-list li.active span.teaser {
-    display: block;
-}
-
-#beer-garden-list li span.teaser img {
-    width: 100px;
-    float: left;
-}
-
-#beer-garden-list li span.teaser p {
-    padding-left: 110px;
-}
-
-#beer-garden-list p {
+.cmp-beergarden-list p {
     background-color: #fff;
     min-width: 100%;
+    margin: 0;
+    vertical-align: middle;
 }
 
-#beer-garden-list p + p {
+.cmp-beergarden-list p + p {
     padding-top: 0.25em;
 }
 
-#beer-garden-list .align-right {
-    padding-right: 0;
+.cmp-beergarden-list .data {
+    display: block;
+    width: calc(100% - 0.65rem);
+}
+
+.cmp-beergarden-list .data > span {
+    padding-right: 0.6rem;
+}
+
+.cmp-beergarden-list .more {
+    text-align: right;
 }
 
 header {
@@ -275,38 +252,59 @@ header .back {
     display: none;
 }
 
-.overlay-load {
+.cmp-loading-overlay {
     text-align: center;
     padding-top: 10em;
 }
 
-.overlay-load i {
+.cmp-loading-overlay i {
     font-size: 5em;
     margin: auto;
     display: inline-block;
     color: #fff;
 }
 
-.overlay-load span span {
+.cmp-loading-overlay span span {
     margin-top: 1em;
     font-size: 1.5em;
     color: #fff;
     display: block;
 }
 
-@-moz-keyframes spin {
-    0% {  -moz-transform: rotate(0deg); }
-    100% { -moz-transform: rotate(360deg); }
-}
-@-webkit-keyframes spin {
-    0% {  -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-}
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.cmp-filter {
+    width: 100%;
+    margin: 1em;
+    height: 100%;
+    background: #fff;
 }
 
-.overlay-load i {
+@-moz-keyframes spin {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.cmp-loading-overlay i {
     animation: spin 3s linear infinite;
 }
