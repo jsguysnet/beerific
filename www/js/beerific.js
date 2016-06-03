@@ -22,12 +22,12 @@ var Beerific = {
         if (null === self._data) {
             $('.cmp-loading-overlay').show();
             navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    this._getBeergardenList(position, filter, callback);
+                function (position) {
+                    self._getBeergardenList(position, filter, callback);
                 },
-                (error) => {
+                function (error) {
                     alert('Der Standort konnte nicht ermittelt werden.');
-                    this._getBeergardenList(null, null, callback);
+                    self._getBeergardenList(null, null, callback);
                 },
                 {
                     enableHighAccuracy: true,
@@ -79,7 +79,7 @@ var Beerific = {
     
     _request: function (url, success) {
         $.ajax({
-            url: this.BASE_URL + url,
+            url: this.BASE_URL + '/' + url,
             method: 'GET',
             success: success
         });
