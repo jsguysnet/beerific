@@ -46,7 +46,7 @@ body {
     color: #777;
 }
 
-.search .search-field {
+.search .filter-search-field {
     font-size: 1.15em;
     padding: 0.5rem 1rem 0.5rem 2.5rem;
     border: 1px solid #999;
@@ -273,11 +273,13 @@ header i.fa {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     visibility: hidden;
+    z-index: 100;
 }
 
 .cmp-loading-overlay {
     text-align: center;
     padding-top: 10em;
+    visibility: visible;
 }
 
 .cmp-loading-overlay i {
@@ -314,8 +316,8 @@ header i.fa {
 .cmp-range .cmp-range-slider {
     width: 100%;
     border-top: 4px solid #3e3e3e;
-    padding-top: 1em;
-    margin-top: 1.5em;
+    padding-top: 0.75em;
+    margin-top: 0.75em;
     position: relative;
     overflow: visible;
 }

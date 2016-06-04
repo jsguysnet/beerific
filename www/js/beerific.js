@@ -12,6 +12,10 @@ var Beerific = {
             self._data = null;
         }
 
+        if (filter && 0 === filter.radius) {
+            delete filter.radius;
+        }
+
         callback = callback || function (data) { self._data = data; };
 
         if (self._data && !refresh) {
