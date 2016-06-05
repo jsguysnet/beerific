@@ -20,11 +20,8 @@ var FilterableBeergardenList = React.createClass({
 
     handleInputChange: function (obj, refresh) {
         var self = this;
-        console.log(obj);
 
-        refresh = !!refresh;
-
-        self.filter(obj, refresh);
+        self.filter(obj, !!refresh);
     },
 
     filter: function (obj, refresh) {
@@ -134,8 +131,8 @@ var BeergardenFilterOverlay = React.createClass({
                                 label="Umkreis"
                                 unit="km"
                                 min="0"
-                                max="50"
-                                precision="1" />
+                                max="25"
+                                precision="2" />
                         <div className="action-buttons">
                             <button onClick={this.handleAbort} className="filter-cancel align-left">Abbrechen</button>
                             <button onClick={this.handleOK} className="filter-submit align-right">OK</button>
@@ -216,9 +213,9 @@ var Slider = React.createClass({
             }
 
             var slider = $('#range-slider-' + self.props.name + ' .cmp-slider');
-            var sliderValue = parseInt(self.props.min) + (self.state.range / self._endPx) * parseInt(self.props.max);
+            var sliderValue = parseInt(self.props.min) + (pos / self._endPx) * parseInt(self.props.max);
 
-            var precision = Math.pow(10, parseInt(self.props.precision));
+            var precision = parseInt(self.props.precision);
 
             self.setState({
                 moveable: !click,
@@ -231,6 +228,12 @@ var Slider = React.createClass({
     render: function () {
         var self = this;
         var slider = $('#range-slider-' + self.props.name + ' .cmp-slider');
+
+        var displayValue = String(self.state.sliderValue);
+
+        if (-1 === displayValue.indexOf('.')) {
+            displayValue += '.0';
+        }
 
         slider.css('left', self.state.range * self._step + '%');
 
@@ -245,7 +248,7 @@ var Slider = React.createClass({
                 onTouchStart={this.activateMove}>
                <div className="grid">
                    <label className="col-8-12">{self.props.label}</label>
-                   <span className="range-value col-4-12 no-padding align-right">{self.state.sliderValue + ' ' + self.props.unit}</span>
+                   <span className="range-value col-4-12 no-padding align-right">{displayValue + ' ' + self.props.unit}</span>
                    <input type="hidden" className={'filter-' + self.props.name} name={'filter-' + self.props.name} value={self.state.sliderValue} />
                </div>
                <div id={'range-slider-' + self.props.name} className="cmp-range-slider grid">
@@ -268,14 +271,6 @@ var BeergardenList = React.createClass({
 
     componentDidMount: function () {
         var self = this;
-
-        if (null === Beerific._data) {
-            window.setTimeout(function () {
-                self.componentDidMount();
-            }, 500);
-
-            return;
-        }
 
         this.filter();
     },

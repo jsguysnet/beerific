@@ -25,6 +25,7 @@ var Beerific = {
 
         if (null === self._data) {
             $('.cmp-loading-overlay').show();
+
             navigator.geolocation.getCurrentPosition(
                 function (position) {
                     self._getBeergardenList(position, filter, callback);
@@ -128,6 +129,6 @@ function beerDetails() {
     }
 }
 
-$(window).load(function () {
+$('body').load(function () {
     Beerific.getData();
 });
