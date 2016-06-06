@@ -1,7 +1,9 @@
 var Beerific = {
     BASE_URL: 'http://api.beerific.jsguys.net',
+    MAPS_API_KEY: 'AIzaSyBQFUfNe62HsPdKWIzhfd-djohNKCqwO2E&',
 	//BASE_URL: 'http://localhost:1812',
 
+    _location: null,
     _data: null,
 
     getData: function (filter, refresh, callback) {
@@ -28,6 +30,9 @@ var Beerific = {
 
             navigator.geolocation.getCurrentPosition(
                 function (position) {
+                    if (!self._location) {
+                        self._location = position.coords;
+                    }
                     self._getBeergardenList(position, filter, callback);
                 },
                 function (error) {
@@ -101,6 +106,12 @@ var Beerific = {
             li.innerHTML = entry.title + ' – ' + entry.price + '€';
             food.appendChild(li);
         });
+    },
+    
+    getPosition: function () {
+        var self = this;
+        
+        return self._location || false;
     }
 };
 

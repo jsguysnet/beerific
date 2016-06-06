@@ -137,7 +137,7 @@ p + p {
     padding: 0;
 }
 
-.cmp-beergarden-list li {
+.cmp-beergarden-list > li {
     margin: 0;
     position: relative;
     padding: 0 0.56rem;
@@ -150,7 +150,7 @@ p + p {
     cursor: pointer;
 }
 
-.cmp-beergarden-list li:last-child {
+.cmp-beergarden-list > li:last-child {
     border-bottom: 1px solid #999;
 }
 
@@ -170,7 +170,11 @@ p + p {
 }
 
 .cmp-beergarden-list .data > span {
-    padding: 0.56rem 0.6rem 0.56rem 0;
+    padding: 0.56rem 0.6rem 0 0;
+}
+
+.cmp-beergarden-list span.start-navigation {
+    padding-bottom: 0.56em;
 }
 
 .cmp-beergarden-list .title{
@@ -181,6 +185,16 @@ p + p {
     text-align: right;
     position: relative;
     top: 0.66rem;
+}
+
+.cmp-google-maps-navigation.grid {
+    padding: 0;
+}
+
+.cmp-google-maps-navigation li {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
 }
 
 header {

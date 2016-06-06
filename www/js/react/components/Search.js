@@ -90,7 +90,7 @@ var SearchForm = React.createClass({
                            value={this.props.filterText}
                            ref="filterText"
                            type="text"
-                           placeholder="Biergarten finden..." />
+                           placeholder="Biergarten finden..."/>
                     <i className="handle-filter fa fa-sliders" onClick={this.handleFilter}></i>
                     <i className="handle-reload fa fa-refresh" onClick={this.handleReload}></i>
                 </form>
@@ -132,7 +132,7 @@ var BeergardenFilterOverlay = React.createClass({
                                 unit="km"
                                 min="0"
                                 max="25"
-                                precision="2" />
+                                precision="2"/>
                         <div className="action-buttons">
                             <button onClick={this.handleAbort} className="filter-cancel align-left">Abbrechen</button>
                             <button onClick={this.handleOK} className="filter-submit align-right">OK</button>
@@ -238,27 +238,30 @@ var Slider = React.createClass({
         slider.css('left', self.state.range * self._step + '%');
 
         return (
-           <div className="cmp-range"
-                onMouseMove={this.handleMove}
-                onMouseUp={this.deactivateMove}
-                onMouseDown={this.activateMove}
-                onClick={this.handleClick}
-                onTouchMove={this.handleMove}
-                onTouchEnd={this.deactivateMove}
-                onTouchStart={this.activateMove}>
-               <div className="grid">
-                   <label className="col-8-12">{self.props.label}</label>
-                   <span className="range-value col-4-12 no-padding align-right">{displayValue + ' ' + self.props.unit}</span>
-                   <input type="hidden" className={'filter-' + self.props.name} name={'filter-' + self.props.name} value={self.state.sliderValue} />
-               </div>
-               <div id={'range-slider-' + self.props.name} className="cmp-range-slider grid">
-                   <span className="cmp-slider"></span>
-                   <span className="range-slider-start col-1-2 ">{self.props.min + ' ' + self.props.unit}</span>
-                   <span className="range-slider-end col-1-2 no-padding align-right">{self.props.max + ' ' + self.props.unit}</span>
-               </div>
-           </div>
-       );
-   }
+            <div className="cmp-range"
+                 onMouseMove={this.handleMove}
+                 onMouseUp={this.deactivateMove}
+                 onMouseDown={this.activateMove}
+                 onClick={this.handleClick}
+                 onTouchMove={this.handleMove}
+                 onTouchEnd={this.deactivateMove}
+                 onTouchStart={this.activateMove}>
+                <div className="grid">
+                    <label className="col-8-12">{self.props.label}</label>
+                    <span
+                        className="range-value col-4-12 no-padding align-right">{displayValue + ' ' + self.props.unit}</span>
+                    <input type="hidden" className={'filter-' + self.props.name} name={'filter-' + self.props.name}
+                           value={self.state.sliderValue}/>
+                </div>
+                <div id={'range-slider-' + self.props.name} className="cmp-range-slider grid">
+                    <span className="cmp-slider"></span>
+                    <span className="range-slider-start col-1-2 ">{self.props.min + ' ' + self.props.unit}</span>
+                    <span
+                        className="range-slider-end col-1-2 no-padding align-right">{self.props.max + ' ' + self.props.unit}</span>
+                </div>
+            </div>
+        );
+    }
 });
 
 /* component BeerGardenList */
@@ -302,7 +305,9 @@ var BeergardenList = React.createClass({
                                 title={item.label}
                                 status={item.status}
                                 teaser={item.teaser}
-                                distance={item.distance} />
+                                distance={item.distance}
+                                latitude={item.latitude}
+                                longitude={item.longitude} />
                         );
                     })
                 }
@@ -314,7 +319,7 @@ var BeergardenList = React.createClass({
 /* component BeerGarden */
 var Beergarden = React.createClass({
     getInitialState: function () {
-        return { active: false };
+        return {active: false};
     },
 
     handleClick: function (event) {
@@ -322,22 +327,34 @@ var Beergarden = React.createClass({
         location.href = detailedLink;
     },
 
-    render: function () {
-        var beerGardenCls = 'cmp-beergarden ' + this.props.status;
-        beerGardenCls += this.state.active ? ' active' :'';
+    handleOpenMaps: function (event) {
+        var self = this;
+        event.stopPropagation();
 
-        var detailedLink = 'detail.html?garden=' + this.props.id;
-        var status = 'col-1-2 status align-left ' + this.props.status;
-        var rating = 'col-1-2 rating align-right rating-' + this.props.rating;
+        var location = Beerific.getPosition();
+
+        if ('undefined' === typeof plugin) {
+            alert('Sorry, die Navigation wird nicht unterstützt.')
+        }
+
+        plugin.google.maps.external.launchNavigation({
+            from: location.latitude + ',' + location.longitude,
+            to: self.props.latitude + ',' + self.props.longitude
+        });
+    },
+
+    render: function () {
+        var self = this;
 
         return (
-            <li className={beerGardenCls} onClick={this.handleClick}>
+            <li className="cmp-beergarden" onClick={this.handleClick}>
                 <p className="grid">
                     <span className="data">
                         <span className="col-9-12 title align-left">{this.props.title}</span>
                         <span className="col-3-12 distance align-right">{this.props.distance} km</span>
                     </span>
                     <i className="more fa fa-chevron-right"></i>
+                    <span onClick={this.handleOpenMaps} className="col-3-12 start-navigation"><i className="fa fa-map"></i></span>
                 </p>
             </li>
         );
