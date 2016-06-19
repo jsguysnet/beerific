@@ -198,16 +198,19 @@ p + p {
 }
 
 header {
-    background-color: #fac117;
-    border-bottom: 1px solid #777;
-    color: #777;
-    height: 3.5rem;
+    background: linear-gradient(#fac117, rgba(250, 193, 23, 0.8));
+    color: #fff;
     left: 0;
-    padding: 0.875rem 0;
+    padding: 0.75rem 1em;
     position: fixed;
     right: 0;
     top: 0;
     z-index: 2000;
+}
+
+header .title {
+    float: left;
+    margin-left: 2em;
 }
 
 header .title h1 {
@@ -215,18 +218,18 @@ header .title h1 {
     font-weight: normal;
     margin: 0;
     padding: 0;
-    text-align: center;
     text-overflow: ellipsis;
     overflow: hidden; 
     white-space: nowrap;
 }
 
 header .button {
+    position: absolute;
     text-align: center;
 }
 
 header i.fa {
-    color: #777;
+    color: #fff;
 }
 
 .center {
@@ -234,7 +237,7 @@ header i.fa {
 }
 
 #details {
-    padding: 3.5rem 0 3rem;
+    padding-bottom: 3rem;
 }
 
 #details .images {
@@ -242,9 +245,13 @@ header i.fa {
     background-repeat: no-repeat;
     background-size: 100% auto;
     display: block;
-    height: 9em;
+    height: 3.25rem;
     position: relative;
     width: 100%;
+}
+
+#details .images.loaded {
+    height: 12em;
 }
 
 #details .images::before {
@@ -261,14 +268,54 @@ header i.fa {
     z-index: -1;
 }
 
-#details .info {
-    background-color: #fff;
-    border-bottom: 1px solid #777;
-    padding: 0.75em 1em;
+#details .map-canvas,
+#details .map-canvas .content,
+#details .map-canvas .content > div {
+    height: 6em;
+    width: 100%;
 }
 
-#details .info .category-icon i.fa {
+#details .map-canvas {
+    height: 6.0625em;
+    position: relative;
+}
+
+#details .map-canvas .background-icon {
+    font-size: 2em;
+    left: calc(50% - 0.5em);
+    position: absolute;
+    top: calc(50% - 0.5em);
+}
+
+#details .info {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 0.75em 1em;
+    position: relative;
+}
+
+#details .info.fullscreen {
+    padding: 0;
+}
+
+#details .info .category-icon.fa {
     color: #bbb;
+    position: absolute;
+}
+
+#details .info .content {
+    margin-left: 2em;
+    float: left;
+}
+
+#details .info.fullscreen .content,
+#details .info.no-icon .content {
+    margin-left: 0;
+}
+
+#details .info.no-icon {
+    padding-left: 0;
+    padding-right: 0;
 }
 
 #details .info p {
@@ -277,6 +324,25 @@ header i.fa {
 
 #details .info p + p {
     margin-top: 0.5em;
+}
+
+#details .info.shortcuts .content {
+    float: none;
+    width: 100%;
+}
+
+#details .info.shortcuts .shortcut {
+    display: inline-block;
+    text-align: center;
+    width: 25%;
+}
+
+#details .info.shortcuts a {
+    color: #777;
+}
+
+#details .info.shortcuts .shortcut + .shortcut {
+    border-left: 1px solid #ddd;
 }
 
 .overlay {

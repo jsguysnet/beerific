@@ -1,14 +1,14 @@
 var BeerGarden = React.createClass({
   render: function () {
     var data = this.props.data || {};
-    
+
     return (
       <div id="details">
         <Images gardenId={data.id} />
+        <Shortcuts data={data} />
+        <Map data={data} />
         <Address address={data} />
         <Rating value={data.rating} />
-        <Info icon="beer" content="7,80 €" />
-        <Info icon="clock-o" content="11:00 - 23:00 Uhr" />
         <Info icon="info" content={data.description} />
       </div>
     );
@@ -30,20 +30,20 @@ var Info = React.createClass({
   getContent: function () {
     if (this.props.children) {
       return (
-        <div className="col-11-12">
+        <div className="content">
           {this.props.children}
         </div>
       );
     }
     else {
       return (
-        <div className="col-11-12" dangerouslySetInnerHTML={this.parseHtml()} />
+        <div className="content" dangerouslySetInnerHTML={this.parseHtml()} />
       );
     }
   },
   
   render: function () {
-    var iconClass = 'fa';
+    var icon = null;
     
     if (!this.props.content && !this.props.children) {
       return (
@@ -52,36 +52,85 @@ var Info = React.createClass({
     }
     
     if (this.props.icon) { 
-      iconClass += ' fa-' + this.props.icon;
+      var iconClass = 'category-icon fa fa-' + this.props.icon;
+      icon = <i className={iconClass} />;
+    }
+
+    var className = 'info clearfix';
+    if (this.props.className) {
+      className += ' ' + this.props.className;
     }
     
-    
     return (
-      <div className="info clearfix">
-        <div className="col-1-12 category-icon">
-          <i className={iconClass} />
-        </div>
+      <div className={className}>
+        {icon}
         {this.getContent()}
       </div>
     )
   }
 });
 
-var Images = React.createClass({
+var Map = React.createClass({
   render: function () {
-    var src = 'img/beergarden/' + this.props.gardenId + '/1.jpg';
-    var style = {
-      backgroundImage: 'url(' + src + ')'
-    };
-    
     return (
-      <div className="images" style={style} />
+      <Info className="fullscreen map-canvas">
+        <i className="background-icon fa fa-map" />
+        <div ref="map-canvas" />
+      </Info>
     );
+  },
+
+  componentDidUpdate: function () {
+    var self = this;
+
+    var coordinates = {
+      lat: self.props.data.latitude,
+      lng: self.props.data.longitude,
+    };
+
+    if (!coordinates.lat) {
+      return;
+    }
+
+    var map = new google.maps.Map(self.refs['map-canvas'], {
+      center: coordinates,
+      scrollwheel: false,
+      zoom: 15
+    });
+
+    var marker = new google.maps.Marker({
+      map: map,
+      position: coordinates,
+      title: self.props.data.label
+    });
+  }
+});
+
+var Images = React.createClass({
+  render: function () {    
+    return (
+      <img className="images" ref="image" />
+    );
+  },
+
+  componentDidUpdate: function () {
+    if (this.props.gardenId) {
+      var image = $(this.refs.image);
+      var src = 'http://api.beerific.jsguys.net/beergarden/' +
+        this.props.gardenId + '/1.jpg';
+      image.attr('src', src).load(function () {
+        image.addClass('loaded');
+      });
+    }
   }
 });
 
 var Rating = React.createClass({
   render: function () {
+    if (!this.props.rating) {
+      return (<span />);
+    }
+
     return (
       <Info>
         <div className="rating">
@@ -155,8 +204,34 @@ var Details = React.createClass({
       <div>
         <Header title={this.state.data.label} />
         <BeerGarden data={this.state.data} />
-        <Footer />
       </div>
+    );
+  }
+});
+
+var Shortcuts = React.createClass({
+  render: function () {
+    var url = {
+      facebook: ''
+    };
+
+    return (
+      <Info className="no-icon shortcuts clearfix">
+        <div className="shortcut">
+          <i className="fa fa-map" />
+        </div>
+        <div className="shortcut">
+          <a href={url.facebook} target="_blank">
+            <i className="fa fa-facebook" />
+          </a>
+        </div>
+        <div className="shortcut">
+          <i className="fa fa-twitter" />
+        </div>
+        <div className="shortcut">
+          <i className="fa fa-whatsapp" />
+        </div>
+      </Info>
     );
   }
 });
@@ -165,16 +240,13 @@ var Header = React.createClass({
   render: function () {
     return (
       <header className="app">
-        <div className="col-2-12 button back">
+        <div className="button back">
           <a href="index.html">
             <i className="fa fa-chevron-left" />
           </a>
         </div>
-        <div className="col-8-12 title">
+        <div className="title">
           <h1>{this.props.title}</h1>
-        </div>
-        <div className="col-2-12 button favorite">
-          <i className="fa fa-heart-o" />
         </div>
       </header>
     );
